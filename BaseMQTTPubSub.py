@@ -5,8 +5,10 @@ from typing import Callable
 
 class BaseMQTTPubSub:
     CONFIG_PATH = './config/client.conf'
+    HEARTBEAT_TOPIC = '/heartbeat'
+    HEARTBEAT_FREQUENCY = 10 # seconds
     
-    def __init__(self, config_path=CONFIG_PATH):
+    def __init__(self, config_path=CONFIG_PATH: str, heartbeat_topic=HEARTBEAT_TOPIC: str, heartbeat_frequency=HEARTBEAT_FREQUENCY: int) -> None:
         self.config_filepath = config_path        
         self.client_connection_parameters = self._parse_config()
         
@@ -77,3 +79,9 @@ class BaseMQTTPubSub:
 
     def start_client_loop(self) -> None:
         self.client.loop_start()
+        
+    def publish_hearbeat(self, payload):
+        while True:
+            time.sleep(self.heartbeat_frequency)
+            success = self.publish_to_topic(self.heartbeat_topic, payload)
+            assert success == True

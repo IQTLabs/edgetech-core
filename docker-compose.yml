@@ -1,0 +1,22 @@
+version: "3"
+services:
+  mqtt-broker:
+    image: eclipse-mosquitto
+    ports:
+      - "8883:8883"
+      - "9001:9001"
+    volumes:
+      - ./config/mosquitto.conf:/mosquitto/config/mosquitto.conf
+  base:
+    image: baseimage
+    restart: always
+    network_mode: "host"
+    depends_on: 
+      - mqtt-broker
+    build:
+      context: ./
+      dockerfile: ./BaseDockerfile
+      args:
+        BASE_MQTT_HOST_IP_ADDRESS: '127.0.0.1'
+        BASE_MQTT_SUBSCRIBE_TOPIC: '/spaceman'
+        BASE_MQTT_PUBLISH_TOPIC: '/spaceman'

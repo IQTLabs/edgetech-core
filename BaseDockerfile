@@ -1,20 +1,18 @@
 FROM python:3.11-slim
 
 RUN pip install paho-mqtt==1.6.1
+RUN pip install pytest==7.2.0
 RUN apt update
 RUN apt install screen -y
 
 WORKDIR /root
 ADD BaseMQTTPubSub.py .
-ADD TelemetryPinephone.py .
+ADD BaseMQTTPubSubTest.py .
 
-ARG BASE_MQTT_HOST_IP_ADDRESS
-ENV BASE_MQTT_HOST_IP_ADDRESS=$BASE_MQTT_HOST_IP_ADDRESS
+# example of variable passed via compose 
+# ARG BASE_MQTT_PUBLISH_TOPIC
+# ENV BASE_MQTT_PUBLISH_TOPIC=$BASE_MQTT_PUBLISH_TOPIC
 
-ARG BASE_MQTT_SUBSCRIBE_TOPIC
-ENV BASE_MQTT_SUBSCRIBE_TOPIC=$BASE_MQTT_SUBSCRIBE_TOPIC
-
-ARG BASE_MQTT_PUBLISH_TOPIC
-ENV BASE_MQTT_PUBLISH_TOPIC=$BASE_MQTT_PUBLISH_TOPIC
-
-CMD python -u BaseMQTTPubSub.py --mqtt-subscribe-topic $BASE_MQTT_SUBSCRIBE_TOPIC --mqtt-publish-topic $BASE_MQTT_PUBLISH_TOPIC --mqtt-host-ip-address $BASE_MQTT_HOST_IP_ADDRESS
+CMD pytest BaseMQTTPubSubTest.py
+# To run tests, uncomment line below
+# CMD python -u BaseMQTTPubSub.py

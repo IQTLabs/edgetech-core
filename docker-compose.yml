@@ -20,7 +20,6 @@ services:
     build:
       context: ./
       dockerfile: ./BaseDockerfile
-      args:
-        BASE_MQTT_HOST_IP_ADDRESS: '127.0.0.1'
-        BASE_MQTT_SUBSCRIBE_TOPIC: '/spaceman'
-        BASE_MQTT_PUBLISH_TOPIC: '/spaceman'
+      # example of passing variable via docker compose
+      # args:
+      #   BASE_MQTT_PUBLISH_TOPIC: '/spaceman'

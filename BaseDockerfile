@@ -13,6 +13,8 @@ ADD BaseMQTTPubSubTest.py .
 # ARG BASE_MQTT_PUBLISH_TOPIC
 # ENV BASE_MQTT_PUBLISH_TOPIC=$BASE_MQTT_PUBLISH_TOPIC
 
-CMD pytest BaseMQTTPubSubTest.py
-# To run tests, uncomment line below
+# To run a python file, uncomment the line below for example.
 # CMD python -u BaseMQTTPubSub.py
+
+# To run tests, uncomment the line below
+# CMD pytest BaseMQTTPubSubTest.py

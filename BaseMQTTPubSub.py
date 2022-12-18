@@ -92,8 +92,8 @@ class BaseMQTTPubSub:
             else:
                 self.connection_flag = False
 
+        self.client.on_connect = _on_connect  # specify connection callback
         # connect to MQTT
-        self.client.on_connect = _on_connect
         self.client.connect(
             self.client_connection_parameters["IP"],
             int(self.client_connection_parameters["PORT"]),
@@ -113,7 +113,7 @@ class BaseMQTTPubSub:
             Args:
                 _client (mqtt.Client): the MQTT client that was instatntiated in the constructor.
                 _userdata (Any): data passed to the callback through the MQTT paho Client
-                class contructor.
+                class contructor or set later using user_data_set().
                 response_flag (int): integer response flag where 0 is success and 1 - 5
                 are various failure types.
             """
@@ -122,9 +122,9 @@ class BaseMQTTPubSub:
             else:
                 self.graceful_disconnect_flag = False
 
-        self.client.disconnect()
-        self.client.on_disconnect = _on_disconnect
-        self.client.loop_stop()
+        self.client.disconnect()  # disconnect client gracefully
+        self.client.on_disconnect = _on_disconnect  # specify disconnect callback
+        self.client.loop_stop()  # TODO: not sure if this is necessary
 
     def setup_ungraceful_disconnect_publish(
         self,
@@ -144,7 +144,7 @@ class BaseMQTTPubSub:
         """
         self.client.will_set(
             ungraceful_disconnect_topic, ungraceful_disconnect_payload, qos, retain
-        )
+        )  # TODO: this function is untested
 
     def add_subscribe_topic(
         self, topic_name: str, callback_method: Callable, qos: int = 2

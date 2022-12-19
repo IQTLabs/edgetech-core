@@ -8,7 +8,7 @@ services:
     volumes:
       - ./config/mosquitto.conf:/mosquitto/config/mosquitto.conf
   base:
-    image: baseimage
+    image: iqtlabs-edgetech-core
     restart: always
     network_mode: "host"
     depends_on: 
@@ -19,7 +19,7 @@ services:
         target: /root/config
     build:
       context: ./
-      dockerfile: ./BaseDockerfile
+      dockerfile: ./core/BaseDockerfile
       args:
         BASE_MQTT_HOST_IP_ADDRESS: '127.0.0.1'
         BASE_MQTT_SUBSCRIBE_TOPIC: '/spaceman'

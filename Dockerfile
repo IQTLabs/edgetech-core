@@ -5,8 +5,9 @@ RUN apt update
 RUN apt install screen -y
 
 WORKDIR /root
-ADD BaseMQTTPubSub.py .
-ADD TelemetryPinephone.py .
+ADD core core/
+ADD config config/
+#ADD TelemetryPinephone.py .
 
 ARG BASE_MQTT_HOST_IP_ADDRESS
 ENV BASE_MQTT_HOST_IP_ADDRESS=$BASE_MQTT_HOST_IP_ADDRESS

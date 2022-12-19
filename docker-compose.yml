@@ -7,20 +7,8 @@ services:
       - "9001:9001"
     volumes:
       - ./config/mosquitto.conf:/mosquitto/config/mosquitto.conf
-  base:
-    image: iqtlabs-edgetech-core
-    restart: always
-    network_mode: "host"
-    depends_on: 
-      - mqtt-broker
-    volumes:
-      - type: bind
-        source: ./config
-        target: /root/config
+  core:
+    image: iqtlabs-edgetech-core:latest
     build:
       context: ./
-      dockerfile: ./core/BaseDockerfile
-      args:
-        BASE_MQTT_HOST_IP_ADDRESS: '127.0.0.1'
-        BASE_MQTT_SUBSCRIBE_TOPIC: '/spaceman'
-        BASE_MQTT_PUBLISH_TOPIC: '/spaceman'
+      dockerfile: ./Dockerfile

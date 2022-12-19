@@ -10,14 +10,23 @@ Auxillary Services:
 - File Save
 
 
-## Running EdgeTech Core
+## Running EdgeTech Core Services
 `cd` into directory with `docker-compose.yaml`
 
-`docker-compose up`
+`docker-compose up -d`
 
 ## Building Core Image
 The image is automatically built via docker compose if not present. Alternatively, to only build the image use:
-`docker build . -f BaseDockerfile -t iqtlabs-edgetech-core:latest`
+`docker build . -f Dockerfile -t iqtlabs-edgetech-core:latest`
+
+## Pushing Docker Image to Registry
+
+If needed, you can push the image to container registry with:
+```bash
+docker image push iqtlabs-edgetech-core:latest
+```
+
+Alternatively docker CI/CD pipeline will publish images with tag:
 
 ## Using as a Library
 
@@ -29,12 +38,13 @@ FROM iqtlabs-edgetech-core:latest
 
 or include the core folder in your base image of choice.
 ```bash
-ADD core .
+ADD core core/
 ```
 
 and import the library from your python file.
 ```bash
-import iqtlabs-edgetech-core as core
+from core import *
+client=BaseMQTTPubSub.BaseMQTTPubSub()
 ```
 
 ### Usage
@@ -61,6 +71,9 @@ will publish a text payload to /TOPIC
 Inherit the core class and add methods
 
 ```python
-class CoreAddOn(BaseMQTTPubSub):
+from core import *
+
+class CoreAddOn(BaseMQTTPubSub.BaseMQTTPubSub):
 	def __init__(self):
+		super().__init__()
 ```

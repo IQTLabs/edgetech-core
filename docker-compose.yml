@@ -1,25 +1,17 @@
 version: "3"
 services:
   mqtt-broker:
-    image: eclipse-mosquitto
+    image: iqtlabs/edgetech-mqtt:latest
     ports:
-      - "8883:8883"
+      - "1883:1883"
       - "9001:9001"
     volumes:
       - ./config/mosquitto.conf:/mosquitto/config/mosquitto.conf
-  base:
-    image: baseimage
-    restart: always
-    network_mode: "host"
-    depends_on: 
-      - mqtt-broker
-    volumes:
-      - type: bind
-        source: ./config
-        target: /root/config
     build:
       context: ./
-      dockerfile: ./BaseDockerfile
-      # example of passing variable via docker compose
-      # args:
-      #   BASE_MQTT_PUBLISH_TOPIC: '/spaceman'
+      dockerfile: ./mqtt/Dockerfile
+  core:
+    image: iqtlabs/edgetech-core:latest
+    build:
+      context: ./
+      dockerfile: ./core/Dockerfile

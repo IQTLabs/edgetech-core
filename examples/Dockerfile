@@ -1,4 +1,4 @@
-FROM iqtlabs-edgetech-core:latest
+FROM iqtlabs/edgetech-core:latest
 
 WORKDIR /root
 ADD python-test.py .

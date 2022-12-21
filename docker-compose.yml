@@ -1,14 +1,14 @@
 version: "3"
 services:
   mqtt-broker:
-    image: eclipse-mosquitto
+    image: iqtlabs/edgetech-mqtt:latest
     ports:
-      - "8883:8883"
+      - "1883:1883"
       - "9001:9001"
     volumes:
       - ./config/mosquitto.conf:/mosquitto/config/mosquitto.conf
   core:
-    image: iqtlabs-edgetech-core:latest
+    image: iqtlabs/edgetech-core:latest
     build:
       context: ./
       dockerfile: ./Dockerfile

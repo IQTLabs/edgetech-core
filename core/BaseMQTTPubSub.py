@@ -27,7 +27,7 @@ class BaseMQTTPubSub:
         self.client.connect(self.client_connection_parameters['IP'], 
                             int(self.client_connection_parameters['PORT']), 
                             int(self.client_connection_parameters['TIMEOUT']))
-        self.client.on_connect = self._on_connecta
+        self.client.on_connect = self._on_connect
         
     def _on_connect(self, client, userdata, flags, rc):
         '''

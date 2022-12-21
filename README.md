@@ -3,9 +3,9 @@
 EdgeTech-Core is a unified platform bringing functionality to edge-based devices with minimal development effort. At its core is an MQTT broker sercive with auxillary
 
 Core Services:
+- Core Library (python library for interacting with Core)
 - MQTT Broker
 - Heartbeat Monitor
-- Core Library (python library for interacting with Core)
 Auxillary Services:
 - File Save
 
@@ -17,7 +17,7 @@ Auxillary Services:
 
 ## Building Core Image
 The image is automatically built via docker compose if not present. Alternatively, to only build the image use:
-`docker build . -f Dockerfile -t iqtlabs-edgetech-core:latest`
+`docker build . -f Dockerfile -t iqtlabs/edgetech-core:latest`
 
 ## Pushing Docker Image to Registry
 

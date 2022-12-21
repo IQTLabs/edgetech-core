@@ -1,0 +1,20 @@
+FROM python:3.11-slim
+
+RUN pip install paho-mqtt==1.6.1
+RUN pip install pytest==7.2.0
+RUN apt update
+RUN apt install screen -y
+
+WORKDIR /root
+ADD BaseMQTTPubSub.py .
+ADD BaseMQTTPubSubTest.py .
+
+# example of variable passed via compose 
+# ARG BASE_MQTT_PUBLISH_TOPIC
+# ENV BASE_MQTT_PUBLISH_TOPIC=$BASE_MQTT_PUBLISH_TOPIC
+
+# To run a python file, uncomment the line below for example.
+# CMD python -u BaseMQTTPubSub.py
+
+# To run tests, uncomment the line below
+# CMD pytest BaseMQTTPubSubTest.py

@@ -7,8 +7,11 @@ services:
       - "9001:9001"
     volumes:
       - ./config/mosquitto.conf:/mosquitto/config/mosquitto.conf
+    build:
+      context: ./
+      dockerfile: ./mqtt/Dockerfile
   core:
     image: iqtlabs/edgetech-core:latest
     build:
       context: ./
-      dockerfile: ./Dockerfile
+      dockerfile: ./core/Dockerfile

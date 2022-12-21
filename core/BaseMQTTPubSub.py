@@ -12,7 +12,7 @@ class BaseMQTTPubSub:
     and add publishers.
     """
 
-    CONFIG_PATH = "./config/client.conf"
+    CONFIG_PATH = "./client.conf"
     HEARTBEAT_TOPIC = "/heartbeat"
     HEARTBEAT_FREQUENCY = 10  # seconds
 

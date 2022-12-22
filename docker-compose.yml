@@ -1,17 +1,18 @@
 version: "3"
 services:
-  mqtt-broker:
+  mqtt:
     image: iqtlabs/edgetech-mqtt:latest
     ports:
       - "1883:1883"
       - "9001:9001"
-    volumes:
-      - ./config/mosquitto.conf:/mosquitto/config/mosquitto.conf
     build:
-      context: ./
-      dockerfile: ./mqtt/Dockerfile
+      context: ./mqtt
+      dockerfile: ./Dockerfile
+    restart: unless-stopped
   core:
     image: iqtlabs/edgetech-core:latest
     build:
-      context: ./
-      dockerfile: ./core/Dockerfile
+      context: ./core
+      dockerfile: ./Dockerfile
+    depends_on: 
+      - mqtt

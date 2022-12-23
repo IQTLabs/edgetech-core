@@ -27,7 +27,7 @@ jobs:
           DOCKERUSERNAME: ${{ secrets.DOCKER_USERNAME }}
           PROJECT_NAME: "edgetech-core"
           RELEASENAME: ${{ github.event.release.name }}
-        run: | 
+        run: |
           IFS=","
           read -ra ARR <<< "$DOCKERFOLDERS"
           for folder in "${ARR[@]}"

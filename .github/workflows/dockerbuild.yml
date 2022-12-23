@@ -40,7 +40,7 @@ jobs:
       env: 
         # Every folder in the repo that has a Dockerfile within it, comma separated 
         DOCKERFOLDERS: "core,mqtt"
-        DOCKERUSERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKERNAMESPACE: ${{ secrets.DOCKER_NAMESPACE }}
         PROJECT_NAME: "edgetech-core"
       run: |
         IFS=","
@@ -58,7 +58,7 @@ jobs:
           fi
           echo "Building $folder"
           docker buildx build "$folder" --push \
-          --tag $DOCKERUSERNAME/$PUBLISHNAME:latest \
-          --tag $DOCKERUSERNAME/$PUBLISHNAME:${{ steps.get_tag.outputs.IMAGE_TAG }} \
+          --tag $DOCKERNAMESPACE/$PUBLISHNAME:latest \
+          --tag $DOCKERNAMESPACE/$PUBLISHNAME:${{ steps.get_tag.outputs.IMAGE_TAG }} \
           --platform linux/arm64,linux/amd64 
         done

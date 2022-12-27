@@ -18,7 +18,7 @@ def basepubsub() -> BaseMQTTPubSub:
     return BaseMQTTPubSub()
 
 
-@pytest.fixture
+@pytest.fixture()
 def config_parse_result() -> Dict[str, str]:
     """Pytest fixture for the current expected config parse results.
 
@@ -28,7 +28,7 @@ def config_parse_result() -> Dict[str, str]:
     return {"IP": "127.0.0.1", "PORT": "1883", "TIMEOUT": "60"}
 
 
-@pytest.fixture
+@pytest.fixture()
 def ungraceful_disconnect_topic() -> str:
     """Pytest fixture topic name for the ungraceful last will and testament broadcast.
 
@@ -38,7 +38,7 @@ def ungraceful_disconnect_topic() -> str:
     return "/base/ungracefultest"
 
 
-@pytest.fixture
+@pytest.fixture()
 def ungraceful_disconnect_payload() -> str:
     """Pytest fixture payload for the ungraceful last will and testament broadcast.
 
@@ -48,7 +48,7 @@ def ungraceful_disconnect_payload() -> str:
     return "The process ungracefully disconnected"
 
 
-@pytest.fixture
+@pytest.fixture()
 def fixture_topic_one() -> str:
     """Pytest fixture topic name for subscriber testing.
 
@@ -58,7 +58,7 @@ def fixture_topic_one() -> str:
     return "/base/topictestone"
 
 
-@pytest.fixture
+@pytest.fixture()
 def fixture_callback_one() -> Callable[[mqtt.Client, Dict[Any, Any], Any], None]:
     """Pytest fixture that defines a nested funciton that will serve as the callback function
     for the topic one test.
@@ -86,7 +86,7 @@ def fixture_callback_one() -> Callable[[mqtt.Client, Dict[Any, Any], Any], None]
     return _callback_one
 
 
-@pytest.fixture
+@pytest.fixture()
 def fixture_payload_one() -> str:
     """Pytest fixture that defines the payload to be published to the fixture_topic_one topic.
 
@@ -106,7 +106,7 @@ def fixture_topic_two() -> str:
     return "/base/topictesttwo"
 
 
-@pytest.fixture
+@pytest.fixture()
 def fixture_callback_two() -> Callable[[mqtt.Client, Dict[Any, Any], Any], None]:
     """Pytest fixture that defines a nested funciton that will serve as the callback function
     for multiple subscriber test.
@@ -134,7 +134,7 @@ def fixture_callback_two() -> Callable[[mqtt.Client, Dict[Any, Any], Any], None]
     return _callback_two
 
 
-@pytest.fixture
+@pytest.fixture()
 def fixture_heartbeat_payload() -> str:
     """Pytest fixture that defines the payload published to the heartbeat topic name defined
     in the BaseMQTTPubSub constructor.
@@ -146,7 +146,7 @@ def fixture_heartbeat_payload() -> str:
     return "Base Alive"
 
 
-@pytest.fixture
+@pytest.fixture()
 def fixture_heartbeat_callback() -> Callable[[mqtt.Client, Dict[Any, Any], Any], None]:
     """pytest fixture that returns a callback for the heartbeat topic to verify that
     the published payload has been recieved correcrtly and shows and example usage of

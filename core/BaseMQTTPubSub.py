@@ -2,7 +2,7 @@
 incorporates a dynamic message/event-based infrastructure that is enabled via MQTT.
 This is very much a working document and is under active development.
 """
-from typing import Callable, Any
+from typing import Callable, Any, Dict, List
 import paho.mqtt.client as mqtt
 
 
@@ -17,7 +17,7 @@ class BaseMQTTPubSub:
     HEARTBEAT_FREQUENCY = 10  # seconds
 
     def __init__(
-        self,
+        self: Any,
         config_path: str = CONFIG_PATH,
         heartbeat_topic: str = HEARTBEAT_TOPIC,
         heartbeat_frequency: int = HEARTBEAT_FREQUENCY,
@@ -46,7 +46,7 @@ class BaseMQTTPubSub:
 
         self.client = mqtt.Client()
 
-    def _parse_config(self) -> dict:
+    def _parse_config(self: Any) -> Dict[str, str]:
         """Parses the config at the specified path from the constructor where the equal sign
         connects the key with the value and each pair is newline delimited (assumes utf-8 encoded).
 
@@ -60,14 +60,17 @@ class BaseMQTTPubSub:
             }
             return parameters
 
-    def connect_client(self) -> None:
+    def connect_client(self: Any) -> None:
         """Properly add a client connection to the MQTT server that includes a callback, which
         verifies that the connection was successful.
         """
 
         def _on_connect(
-            _client: mqtt.Client, _userdata: Any, _flags: dict, response_flag: int
-        ):
+            _client: mqtt.Client,
+            _userdata: Any,
+            _flags: Dict[Any, Any],
+            response_flag: int,
+        ) -> None:
             """Connection callback that stores the result of connecting in a flag for class-wide
             access to verify the connection—can be overridden for more elaborate usage.
 
@@ -101,12 +104,14 @@ class BaseMQTTPubSub:
         )
         self.client.loop_start()  # start callback thread
 
-    def graceful_stop(self) -> None:
+    def graceful_stop(self: Any) -> None:
         """How to properly shutoff the MQTT client connection that includes a callback to signal
         if the disconnect was successful.
         """
 
-        def _on_disconnect(_client: mqtt.Client, _userdata: Any, response_flag: int):
+        def _on_disconnect(
+            _client: mqtt.Client, _userdata: Any, response_flag: int
+        ) -> None:
             """Disconnect callback that stores the result of diconnecting in a flag for class-wide
             access to verify the disconect—can be overridden for more elaborate usage.
 
@@ -127,7 +132,7 @@ class BaseMQTTPubSub:
         self.client.loop_stop()  # TODO: not sure if this is necessary
 
     def setup_ungraceful_disconnect_publish(
-        self,
+        self: Any,
         ungraceful_disconnect_topic: str,
         ungraceful_disconnect_payload: str,
         qos: int = 0,
@@ -147,13 +152,16 @@ class BaseMQTTPubSub:
         )  # TODO: this function is untested
 
     def add_subscribe_topic(
-        self, topic_name: str, callback_method: Callable, qos: int = 2
+        self: Any,
+        topic_name: str,
+        callback_method: Callable[[mqtt.Client, Dict[Any, Any], Any], None],
+        qos: int = 2,
     ) -> bool:
         """Adds a callback to the topic specified with the specified quality of service.
 
         Args:
             topic_name (str): topic name to subscribe to.
-            callback_method (Callable): callback function to return information.
+            callback_method (Callable[[mqtt.Client, Dict[Any, Any], Any], None]): callback function to return information.
             qos (int, optional): MQTT quality of service options 0, 1, or 2. Defaults to 2.
 
         Returns:
@@ -164,10 +172,10 @@ class BaseMQTTPubSub:
         return result == mqtt.MQTT_ERR_SUCCESS  # returns True if successful
 
     def add_subscribe_topics(
-        self,
-        topic_list: list[str],
-        callback_method_list: list[Callable],
-        qos_list: list[int],
+        self: Any,
+        topic_list: List[str],
+        callback_method_list: List[Callable[[mqtt.Client, Dict[Any, Any], Any], None]],
+        qos_list: List[int],
     ) -> bool:
         """Adds topics, callbacks, and quality of services from lists and adds
         callbacks that subscribe topics of interest and returns True if all
@@ -175,7 +183,7 @@ class BaseMQTTPubSub:
 
         Args:
             topic_list (list[str]): list of topics to subscribe to.
-            callback_method_list (list[Callable]): list of callback functions to recieve callbacks.
+            callback_method_list (list[Callable[[mqtt.Client, Dict[Any, Any], Any], None]]): list of callback functions to recieve callbacks.
             qos_list (list[str]): list of integers that correspond to the QoS requirements.
 
         Returns:
@@ -191,7 +199,7 @@ class BaseMQTTPubSub:
             topic_list
         )  # returns True if all successful
 
-    def remove_subscribe_topic(self, topic_name: str) -> None:
+    def remove_subscribe_topic(self: Any, topic_name: str) -> None:
         """A wrapper around paho MQTT callback removal funciton, which does not send a
         success message so nothing is returned (TODO: is make a PR on the paho GitHub).
 
@@ -201,7 +209,11 @@ class BaseMQTTPubSub:
         self.client.message_callback_remove(topic_name)
 
     def publish_to_topic(
-        self, topic_name: str, publish_payload: str, qos: int = 2, retain: bool = False
+        self: Any,
+        topic_name: str,
+        publish_payload: str,
+        qos: int = 2,
+        retain: bool = False,
     ) -> bool:
         """A wrapper around the paho MQTT publishing function publshes a payload to
         a topic name and returns True if successful.
@@ -218,7 +230,7 @@ class BaseMQTTPubSub:
         (result, _mid) = self.client.publish(topic_name, publish_payload, qos, retain)
         return result == mqtt.MQTT_ERR_SUCCESS  # returns True if successful
 
-    def publish_hearbeat(self, payload: str) -> bool:
+    def publish_hearbeat(self: Any, payload: str) -> bool:
         """A function that includes a hearbeat publisher. To call this function correctly,
         you will need to use the python schedule module around this function or put this in
         your main loop with a tick of self.heartbeat_frequency b/c MQTT is single threaded.

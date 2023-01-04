@@ -41,7 +41,7 @@ jobs:
         # Every folder in the repo that has a Dockerfile within it, comma separated 
         DOCKERFOLDERS: "core,mqtt"
         DOCKERNAMESPACE: ${{ secrets.DOCKER_NAMESPACE }}
-        PROJECT_NAME: "edgetech-core"
+        PROJECT_NAME: "edgetech"
       run: |
         IFS=","
         read -ra ARR <<< "$DOCKERFOLDERS"

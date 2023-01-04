@@ -25,7 +25,7 @@ jobs:
           # Every folder in the repo that has a Dockerfile within it, comma separated 
           DOCKERFOLDERS: "core,mqtt"
           DOCKERNAMESPACE: ${{ secrets.DOCKER_NAMESPACE }}
-          PROJECT_NAME: "edgetech-core"
+          PROJECT_NAME: "edgetech"
           RELEASENAME: ${{ github.event.release.name }}
         run: |
           IFS=","

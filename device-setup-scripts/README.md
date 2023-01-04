@@ -6,4 +6,4 @@ Our installation instructions will usually point from shortened links.  The scri
 
 
 Supported devices currently are:
-  - [PinePhone Pro](./pinephone-pro_setup.sh) | `curl -fsSL https://short.iqt.org/pinephonepro | sh`
+  - [PinePhone Pro](./pinephone-pro_setup.sh)   |   `curl -fsSL https://short.iqt.org/pinephonepro | sh`

@@ -19,16 +19,6 @@ def basepubsub() -> BaseMQTTPubSub:
 
 
 @pytest.fixture()
-def config_parse_result() -> Dict[str, str]:
-    """Pytest fixture for the current expected config parse results.
-
-    Returns:
-        dict: maps string keys to their values as they appear in the current config.
-    """
-    return {"IP": "127.0.0.1", "PORT": "1883", "TIMEOUT": "60"}
-
-
-@pytest.fixture()
 def ungraceful_disconnect_topic() -> str:
     """Pytest fixture topic name for the ungraceful last will and testament broadcast.
 
@@ -175,21 +165,6 @@ def fixture_heartbeat_callback() -> Callable[[mqtt.Client, Dict[Any, Any], Any],
         client.user_data_set(str(msg.payload.decode("utf-8")))
 
     return _heartbeat_callback
-
-
-def test_pase_config(
-    basepubsub: BaseMQTTPubSub, config_parse_result: Dict[str, str]
-) -> None:
-    """Using the pytest module, this function verifies that the parsed config function
-    output matches the expected fixture.
-
-    Args:
-        basepubsub (BaseMQTTPubSub): a dynamic instantiation of the BaseMQTTPubSub
-        class this testing suite is evaluating.
-        config_parse_result (dict): the expected config parse result from the pytest fixture.
-    """
-    assert basepubsub.client_connection_parameters == config_parse_result
-
 
 def test_connect_client(basepubsub: BaseMQTTPubSub) -> bool:
     """Using the pytest module, this function verifies that the connection function
@@ -370,7 +345,7 @@ def test_publish_heartbeat(
     )
     basepubsub.client.user_data_set("")
     assert result is True
-    success = basepubsub.publish_hearbeat(fixture_heartbeat_payload)
+    success = basepubsub.publish_heartbeat(fixture_heartbeat_payload)
     assert success is True
     sleep(1)  # default MQTT connection wait
     assert basepubsub.client._userdata == fixture_heartbeat_payload

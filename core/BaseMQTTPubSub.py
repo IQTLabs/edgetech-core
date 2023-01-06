@@ -12,7 +12,7 @@ class BaseMQTTPubSub:
     and add publishers.
     """
 
-    MQTT_IP = '127.0.0.1'
+    MQTT_IP = "127.0.0.1"
     MQTT_PORT = 1883
     MQTT_TIMEOUT = 60
     HEARTBEAT_TOPIC = "/heartbeat"
@@ -108,6 +108,7 @@ class BaseMQTTPubSub:
             self.mqtt_port,
             self.timeout,
         )
+
         self.client.loop_start()  # start callback thread
 
     def graceful_stop(self: Any) -> None:

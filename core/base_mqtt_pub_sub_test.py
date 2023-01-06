@@ -5,7 +5,7 @@ from time import sleep
 import paho.mqtt.client as mqtt
 import pytest
 from typing import Callable, Dict, Any
-from BaseMQTTPubSub import BaseMQTTPubSub
+from base_mqtt_pub_sub import BaseMQTTPubSub
 
 
 @pytest.fixture()

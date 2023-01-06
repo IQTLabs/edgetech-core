@@ -11,6 +11,7 @@ services:
     restart: unless-stopped
   core:
     image: iqtlabs/edgetech-core:latest
+    network_mode: "host"
     build:
       context: ./core
       dockerfile: ./Dockerfile

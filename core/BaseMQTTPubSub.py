@@ -12,13 +12,17 @@ class BaseMQTTPubSub:
     and add publishers.
     """
 
-    CONFIG_PATH = "./client.conf"
+    MQTT_IP = "127.0.0.1"
+    MQTT_PORT = 1883
+    MQTT_TIMEOUT = 60
     HEARTBEAT_TOPIC = "/heartbeat"
     HEARTBEAT_FREQUENCY = 10  # seconds
 
     def __init__(
         self: Any,
-        config_path: str = CONFIG_PATH,
+        mqtt_ip: str = MQTT_IP,
+        mqtt_port: int = MQTT_PORT,
+        mqtt_timeout: int = MQTT_TIMEOUT,
         heartbeat_topic: str = HEARTBEAT_TOPIC,
         heartbeat_frequency: int = HEARTBEAT_FREQUENCY,
     ) -> None:
@@ -36,8 +40,10 @@ class BaseMQTTPubSub:
             heartbeat_frequency (int, optional): the frequency to publish the heartbeat at
             (currently unused but included for future development). Defaults to HEARTBEAT_FREQUENCY.
         """
-        self.config_filepath = config_path
-        self.client_connection_parameters = self._parse_config()
+
+        self.mqtt_ip = mqtt_ip
+        self.mqtt_port = mqtt_port
+        self.timeout = mqtt_timeout
         self.heartbeat_topic = heartbeat_topic
         self.heartbeat_frequency = heartbeat_frequency
 
@@ -98,10 +104,11 @@ class BaseMQTTPubSub:
         self.client.on_connect = _on_connect  # specify connection callback
         # connect to MQTT
         self.client.connect(
-            self.client_connection_parameters["IP"],
-            int(self.client_connection_parameters["PORT"]),
-            int(self.client_connection_parameters["TIMEOUT"]),
+            self.mqtt_ip,
+            self.mqtt_port,
+            self.timeout,
         )
+
         self.client.loop_start()  # start callback thread
 
     def graceful_stop(self: Any) -> None:
@@ -230,7 +237,7 @@ class BaseMQTTPubSub:
         (result, _mid) = self.client.publish(topic_name, publish_payload, qos, retain)
         return result == mqtt.MQTT_ERR_SUCCESS  # returns True if successful
 
-    def publish_hearbeat(self: Any, payload: str) -> bool:
+    def publish_heartbeat(self: Any, payload: str) -> bool:
         """A function that includes a hearbeat publisher. To call this function correctly,
         you will need to use the python schedule module around this function or put this in
         your main loop with a tick of self.heartbeat_frequency b/c MQTT is single threaded.

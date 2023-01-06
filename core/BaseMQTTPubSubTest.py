@@ -166,6 +166,7 @@ def fixture_heartbeat_callback() -> Callable[[mqtt.Client, Dict[Any, Any], Any],
 
     return _heartbeat_callback
 
+
 def test_connect_client(basepubsub: BaseMQTTPubSub) -> bool:
     """Using the pytest module, this function verifies that the connection function
     effectively connects to the MQTT broker running on the device from the persepective

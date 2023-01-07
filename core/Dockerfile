@@ -6,6 +6,5 @@ RUN apt update
 RUN apt install screen -y
 
 WORKDIR /root
-ADD ./BaseMQTTPubSub.py .
-ADD ./BaseMQTTPubSubTest.py .
-ADD ./client.conf .
+ADD ./base_mqtt_pub_sub.py .
+ADD ./base_mqtt_pub_sub_test.py .

@@ -46,6 +46,7 @@ class BaseMQTTPubSub:
         self.mqtt_ip = mqtt_ip
         self.mqtt_port = mqtt_port
         self.timeout = mqtt_timeout
+        self.registration_topic = registration_topic
         self.heartbeat_topic = heartbeat_topic
         self.heartbeat_frequency = heartbeat_frequency
 

@@ -15,6 +15,7 @@ class BaseMQTTPubSub:
     MQTT_IP = "127.0.0.1"
     MQTT_PORT = 1883
     MQTT_TIMEOUT = 60
+    REGISTRATION_TOPIC = "/registration"
     HEARTBEAT_TOPIC = "/heartbeat"
     HEARTBEAT_FREQUENCY = 10  # seconds
 
@@ -23,6 +24,7 @@ class BaseMQTTPubSub:
         mqtt_ip: str = MQTT_IP,
         mqtt_port: int = MQTT_PORT,
         mqtt_timeout: int = MQTT_TIMEOUT,
+        registration_topic: str = REGISTRATION_TOPIC,
         heartbeat_topic: str = HEARTBEAT_TOPIC,
         heartbeat_frequency: int = HEARTBEAT_FREQUENCY,
     ) -> None:
@@ -44,6 +46,7 @@ class BaseMQTTPubSub:
         self.mqtt_ip = mqtt_ip
         self.mqtt_port = mqtt_port
         self.timeout = mqtt_timeout
+        self.registration_topic = registration_topic
         self.heartbeat_topic = heartbeat_topic
         self.heartbeat_frequency = heartbeat_frequency
 
@@ -236,6 +239,19 @@ class BaseMQTTPubSub:
         """
         (result, _mid) = self.client.publish(topic_name, publish_payload, qos, retain)
         return result == mqtt.MQTT_ERR_SUCCESS  # returns True if successful
+
+    def publish_registration(self: Any, payload: str) -> bool:
+        """A function that includes an registration publisher. This is called in the
+        constructor of a new node to broadcast its successful connection to MQTT.
+
+        Args:
+            payload (str): registration message to publish on initalization of a new node.
+
+        Returns:
+            bool: returns true if publish succeded, else false.
+        """
+        success = self.publish_to_topic(self.registration_topic, payload)
+        return success
 
     def publish_heartbeat(self: Any, payload: str) -> bool:
         """A function that includes a hearbeat publisher. To call this function correctly,

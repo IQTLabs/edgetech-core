@@ -167,6 +167,51 @@ def fixture_heartbeat_callback() -> Callable[[mqtt.Client, Dict[Any, Any], Any],
     return _heartbeat_callback
 
 
+@pytest.fixture()
+def fixture_registration_payload() -> str:
+    """Pytest fixture that defines the payload published to the registration topic name defined
+    in the BaseMQTTPubSub constructor.
+
+    Returns:
+        str: example registration publish message for the base module that will be verified
+        as recieved.
+    """
+    return "Base Registered"
+
+
+@pytest.fixture()
+def fixture_registration_callback() -> Callable[
+    [mqtt.Client, Dict[Any, Any], Any], None
+]:
+    """pytest fixture that returns a callback for the registration topic to verify that
+    the published payload has been recieved correcrtly and shows and example usage of
+    the userdata component of MQTT callbacks.
+
+    Returns:
+        Callable: the callback function defined in the fixture.
+    """
+
+    def _registration_callback(
+        client: mqtt.Client, _userdata: Dict[Any, Any], msg: Any
+    ) -> None:
+        """Registration callback function that prints the payload and topic name as well
+        as stores the decoded payload in the userdata attribute of the client.
+
+        Args:
+            client (mqtt.Client): the MQTT client that was instatntiated in the constructor.
+            _userdata (Dict[Any,Any]): data passed to the callback through the MQTT paho Client
+            class contructor or set later through user_data_set().
+            msg (Any): the recieved message over the subscribed channel that includes
+            the topic name and payload after decoding.
+        """
+        print("Message Topic:", msg.topic)
+        print("Message Payload:", str(msg.payload.decode("utf-8")))
+        # sets the userdata as the decoded payload
+        client.user_data_set(str(msg.payload.decode("utf-8")))
+
+    return _registration_callback
+
+
 def test_connect_client(basepubsub: BaseMQTTPubSub) -> bool:
     """Using the pytest module, this function verifies that the connection function
     effectively connects to the MQTT broker running on the device from the persepective
@@ -318,6 +363,40 @@ def test_publish_to_topic(
     assert basepubsub.connection_flag is True
     result = basepubsub.publish_to_topic(fixture_topic_one, fixture_payload_one)
     assert result is True
+
+
+def test_publish_registration(
+    basepubsub: BaseMQTTPubSub,
+    fixture_registration_payload: str,
+    fixture_registration_callback: Callable[[mqtt.Client, Dict[Any, Any], Any], None],
+) -> bool:
+    """Using the pytest module, his funciton tests multiple functionalities defiend in the class and can be considered
+    a verification of the registration function, the publish function, and the subscriber function
+    as it publishes a payload to the registration topic specified in the constructor of the class
+    and then captures that payload with a callback subscribed to that topic and maintains that
+    the decoded payload is the same as the one published.
+
+    Args:
+        basepubsub (BaseMQTTPubSub): a dynamic instantiation of the BaseMQTTPubSub
+        class this testing suite is evaluating.
+        fixture_registration_payload (str): the payload to publish to the registration topic.
+        fixture_registration_callback (Callable): the callback function that is subscribed to
+        the registration topic for verification of publish.
+    """
+    basepubsub.connect_client()
+    sleep(1)  # default MQTT connection wait
+    assert basepubsub.connection_flag is True
+    result = basepubsub.add_subscribe_topic(
+        basepubsub.registration_topic, fixture_registration_callback
+    )
+    basepubsub.client.user_data_set("")
+    assert result is True
+    success = basepubsub.publish_registration(fixture_registration_payload)
+    assert success is True
+    sleep(1)  # default MQTT connection wait
+    assert basepubsub.client._userdata == fixture_registration_payload
+    # To avoid access to a protected attribute of the mqtt.Client class, I've made a PR here to MQTT
+    # paho requesting the addition of a getter: https://github.com/eclipse/paho.mqtt.python/pull/695
 
 
 def test_publish_heartbeat(

@@ -85,7 +85,7 @@ if __name__ == "__main__":
     # and enviornment variables should be in the docker compose (in a .env file)
     template = TemplatePubSub(
         env_variable=os.environ.get("ENV_VARIABLE"),
-        example_topic=os.environ.get("EXAMPLE_TOPIC"),
+        example_topic=str(os.environ.get("EXAMPLE_TOPIC")),
         mqtt_ip=os.environ.get("MQTT_IP"),
     )
     # call the main function

@@ -13,12 +13,14 @@ class TemplatePubSub(BaseMQTTPubSub):
     def __init__(
         self: Any,
         env_variable: Any,
+        example_topic: str,
         debug: bool = False,
         **kwargs: Any,
     ):
         # Pass enviornment variables as parameters (include **kwargs) in super().__init__()
         super().__init__(**kwargs)
         self.env_variable = env_variable
+        self.example_topic = example_topic
         # include debug version
         self.debug = debug
 
@@ -48,7 +50,7 @@ class TemplatePubSub(BaseMQTTPubSub):
         )
 
         # If subscribing to a topic:
-        self.add_subscribe_topic(self.topic_name, self._example_callback)
+        self.add_subscribe_topic(self.example_topic, self._example_callback)
 
         example_data = {
             "timestamp": str(int(datetime.utcnow().timestamp())),
@@ -81,7 +83,11 @@ if __name__ == "__main__":
     # instantiate an instance of the class
     # any variables in BaseMQTTPubSub can be overriden using **kwargs
     # and enviornment variables should be in the docker compose (in a .env file)
-    template = TemplatePubSub(mqtt_ip=os.environ.get("MQTT_IP"))
+    template = TemplatePubSub(
+        env_variable=os.environ.get("ENV_VARIABLE"),
+        example_topic=os.environ.get("EXAMPLE_TOPIC"),
+        mqtt_ip=os.environ.get("MQTT_IP"),
+    )
     # call the main function
     template.main()
 

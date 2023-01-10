@@ -1,16 +1,5 @@
 FROM iqtlabs/edgetech-core:latest
-
-WORKDIR /root
-ADD python-test.py .
-
-ENV PYTHONPATH=/root
-ARG BASE_MQTT_HOST_IP_ADDRESS
-ENV BASE_MQTT_HOST_IP_ADDRESS=$BASE_MQTT_HOST_IP_ADDRESS
-
-ARG BASE_MQTT_SUBSCRIBE_TOPIC
-ENV BASE_MQTT_SUBSCRIBE_TOPIC=$BASE_MQTT_SUBSCRIBE_TOPIC
-
-ARG BASE_MQTT_PUBLISH_TOPIC
-ENV BASE_MQTT_PUBLISH_TOPIC=$BASE_MQTT_PUBLISH_TOPIC
-
-CMD python -u python-test.py
+COPY ./requirements.txt .
+RUN pip3 install -r requirements.txt
+ADD ./template_pub_sub.py .
+ENTRYPOINT [ "python3", "template_pub_sub.py" ]

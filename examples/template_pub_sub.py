@@ -1,5 +1,5 @@
 import os
-from time import sleep, time
+from time import sleep
 import json
 from typing import Any, Dict
 import schedule

@@ -90,9 +90,3 @@ if __name__ == "__main__":
     )
     # call the main function
     template.main()
-
-
-######################## TODO: ########################
-# Have an example of default values that are stored
-# somewhere (an envinornment wiki typing)
-#######################################################

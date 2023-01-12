@@ -10,6 +10,7 @@
 5. Power Settings
     - Settings -> Power -> Automatic Suspend OFF
     - Settings -> Power -> Show Battery Percentage ON
+6. Set hostname `hostnamectl set-hostname HOSTNAME`
 6. [optional] Cellular Setup
     - Insert SIM
     - Settings -> Mobile Data ON -> "4G LTE Contract vzwinternet"

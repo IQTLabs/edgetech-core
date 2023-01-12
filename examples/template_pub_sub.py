@@ -30,7 +30,7 @@ class TemplatePubSub(BaseMQTTPubSub):
         self.publish_registration("Template Module Registration")
 
     def _example_callback(
-        self: Any, _client: mqtt.Client, _userdata: Dict[Any, Any], msg: Any
+        self: Any, _client: mqtt.client, _userdata: Dict[Any, Any], msg: Any
     ) -> None:
         # Decode message:
         # Always publishing a JSON string with {timestamp: ____, data: ____,}

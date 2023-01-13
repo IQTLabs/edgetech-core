@@ -6,10 +6,10 @@ import schedule
 from datetime import datetime
 import paho.mqtt as mqtt
 
-from base_mqtt_pub_sub import BaseMQTTPubSub
+# from base_mqtt_pub_sub import BaseMQTTPubSub
 
 # inherit functionality from BaseMQTTPubSub parent this way
-class TemplatePubSub(BaseMQTTPubSub):
+class TemplatePubSub():
     def __init__(
         self: Any,
         env_variable: Any,
@@ -34,7 +34,7 @@ class TemplatePubSub(BaseMQTTPubSub):
     ) -> None:
         # Decode message:
         # Always publishing a JSON string with {timestamp: ____, data: ____,}
-        # TODO: more on this to come w/ a JSON header after talking to Rob
+        # TODO: more on this to come w/ a final JSON header after talking to Rob
         payload = json.loads(str(msg.payload.decode("utf-8")))
 
         # Do something when a message is recieved
@@ -60,7 +60,7 @@ class TemplatePubSub(BaseMQTTPubSub):
         # example publish data every 10 minutes
         schedule.every(10).minutes.do(
             self.publish_to_topic,
-            topic_name="Template Module Heartbeat",
+            topic_name=self.example_topic,
             publish_payload=json.dumps(example_data),
         )
 

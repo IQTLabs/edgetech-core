@@ -4,7 +4,7 @@ import json
 from typing import Any, Dict
 import schedule
 from datetime import datetime
-import paho.mqtt as mqtt
+import paho.mqtt.client as mqtt
 
 from base_mqtt_pub_sub import BaseMQTTPubSub
 

@@ -1,7 +1,7 @@
 version: "3"
 services:
   mqtt:
-    image: iqtlabs/edgetech-mqtt:latest
+    image: iqtlabs/edgetech-mqtt:${SERVICES_VERSION:-latest}
     ports:
       - "1883:1883"
       - "9001:9001"
@@ -10,7 +10,7 @@ services:
       dockerfile: ./Dockerfile
     restart: unless-stopped
   core:
-    image: iqtlabs/edgetech-core:latest
+    image: iqtlabs/edgetech-core:${SERVICES_VERSION:-latest}
     network_mode: "host"
     build:
       context: ./core
@@ -18,7 +18,7 @@ services:
     depends_on: 
       - mqtt
   watchtower:
-    image: containrrr/watchtower
+    image: containrrr/watchtower:latest
     network_mode: "host"
     environment:
       - WATCHTOWER_POLL_INTERVAL:3600

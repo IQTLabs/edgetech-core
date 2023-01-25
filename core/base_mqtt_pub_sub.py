@@ -4,6 +4,8 @@ This is very much a working document and is under active development.
 """
 from typing import Callable, Any, Dict, List
 import paho.mqtt.client as mqtt
+import json
+from datetime import datetime
 
 
 class BaseMQTTPubSub:
@@ -266,3 +268,53 @@ class BaseMQTTPubSub:
         """
         success = self.publish_to_topic(self.heartbeat_topic, payload)
         return success
+
+    def generate_payload_json(
+        self: Any,
+        push_timestamp: int,
+        device_type: str,
+        id_: str,
+        deployment_id: str,
+        current_location: str,
+        status: str,
+        message_type: str,
+        model_version: str,
+        firmware_version: str,
+        data_payload_type: str,
+        data_payload: str,
+    ) -> str:
+        """This function takes the requried parameters and creates a formatted data payload with
+        headers for saving/database ingestion.
+
+        Args:
+            push_timestamp (int): The timestamp at which the message was pushed from device.
+            device_type (str): This can be either 'Collector', 'Detector', 'Multimodal', etc.
+            id_ (str): ID of the device. This could be IP address. This should remain constant.
+            deployment_id (str): Device Deployment ID <Project>-<City>-ID.
+            current_location (str): Can be set to null/blank if no GPS present.
+            Attribute is required.
+            status (str): Values can be - [Active, Deactive, Debug].
+            message_type (str): Values can be - [Heartbeat, Event].
+            model_version (str): Version string representing the model running on device.
+            firmware_version (str): Device firmware version.
+            data_payload_type (str): The type of payload to save
+            e.g. [AIS, Telemetry, AudioFileName]
+            data_payload (str): JSON string of data payload
+            to publish.
+
+        Returns:
+            str: Returns a formatted JSON to publish.
+        """
+        out_json = {
+            "PushTimestamp": push_timestamp,
+            "DeviceType": device_type,
+            "ID": id_,
+            "DeploymentID": deployment_id,
+            "CurrentLocation": current_location,
+            "Status": status,
+            "MessageType": message_type,
+            "ModelVersion": model_version,
+            "FirmwareVersion": firmware_version,
+            data_payload_type: data_payload,
+        }
+        return json.dumps(out_json)

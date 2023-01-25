@@ -2,10 +2,9 @@
 incorporates a dynamic message/event-based infrastructure that is enabled via MQTT.
 This is very much a working document and is under active development.
 """
+import json
 from typing import Callable, Any, Dict, List
 import paho.mqtt.client as mqtt
-import json
-from datetime import datetime
 
 
 class BaseMQTTPubSub:

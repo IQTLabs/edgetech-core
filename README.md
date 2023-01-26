@@ -12,12 +12,17 @@ Auxiliary Services:
 
 - TBA
 
-## Running EdgeTech Core
+## EdgeTech Core
 
+### Options
+Image tags for desired services can be set using the `SERVICES_VERSION` environment variable. Current images are published using tags `latest`, `stable`, and `production` for the latest image updates, last stable image updates, and production/deployment-ready images respectively. 
+
+### Running
 `cd` into directory with `docker-compose.yaml` and then run: `docker-compose build && docker-compose up`.
 
-## Running EdgeTech Core Tests
+## EdgeTech Core Tests
 
+### Running
 `cd` into directory with `docker-compose.yaml`, uncomment the `# CMD pytest BaseMQTTPubSubTest.py` line, comment out the `CMD python -u BaseMQTTPubSub.py` line, and then run: `docker-compose build && docker-compose up`.
 
 <!-- 

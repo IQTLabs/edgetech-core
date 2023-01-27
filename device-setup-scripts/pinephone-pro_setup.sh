@@ -2,6 +2,14 @@
 
 printf "Starting Installation"
 
+read -t 120 -n 64 -p $'\n\nEnter network hostname: ' hostname
+if [ ! -z "$hostname" ] ; then
+    sudo hostnamectl set-hostname $hostname
+else
+    printf "\nskipping hostname"
+fi
+echo -e "\nhostname set to: $(hostname)"
+
 printf "\n\nAdd deb repo for tailscale..."
 curl -fsSL https://pkgs.tailscale.com/stable/debian/bookworm.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg > /dev/null
 curl -fsSL https://pkgs.tailscale.com/stable/debian/bookworm.tailscale-keyring.list | sudo tee /etc/apt/sources.list.d/tailscale.list > /dev/null

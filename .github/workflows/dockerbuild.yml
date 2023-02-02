@@ -42,6 +42,7 @@ jobs:
         DOCKERFOLDERS: "core,mqtt"
         DOCKERNAMESPACE: ${{ secrets.DOCKER_NAMESPACE }}
         PROJECT_NAME: "edgetech"
+        ADDL_TAG: ""
       run: |
         IFS=","
         read -ra ARR <<< "$DOCKERFOLDERS"
@@ -60,5 +61,6 @@ jobs:
           docker buildx build "$folder" --push \
           --tag $DOCKERNAMESPACE/$PUBLISHNAME:latest \
           --tag $DOCKERNAMESPACE/$PUBLISHNAME:${{ steps.get_tag.outputs.IMAGE_TAG }} \
+          --tag $DOCKERNAMESPACE/$PUBLISHNAME:${{ steps.get_tag.outputs.ADDL_TAG }}
           --platform linux/arm64,linux/amd64 
         done

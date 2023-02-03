@@ -24,4 +24,5 @@ services:
       - WATCHTOWER_POLL_INTERVAL:3600
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval ${WATCHTOWER_POLL_INTERVAL:-3600}
 

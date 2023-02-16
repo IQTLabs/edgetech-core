@@ -34,7 +34,7 @@
 <h1 align="center">EdgeTech-Core</h1>
 
   <p align="center">
-    EdgeTech-Core is a unified platform bringing functionality to edge-based devices with minimal development effort. The core is a dynamic message/event-based infrastructure that is enabled via <a href="https://projects.eclipse.org/projects/iot.mosquitto">MQTT</a>. All of this functionality is wrapped in a Docker containers for cross-platform compatability. Using the containers built on EdgeTech-Core, defining the software stack of an edge-deployable device should be as easy as dropping those containers into your `docker-compose.yml` and tuning enviornment variables to fit your needs. If you don't find that, come help us make it better by contributing!
+    EdgeTech-Core is a unified platform bringing functionality to edge-based devices with minimal development effort. The core is a dynamic message/event-based infrastructure that is enabled via <a href="https://projects.eclipse.org/projects/iot.mosquitto">MQTT</a>. All of this functionality is wrapped in a Docker containers for cross-platform compatability. Using the containers built on EdgeTech-Core, defining the software stack of an edge-deployable device should be as easy as dropping those containers into your docker-compose file and tuning enviornment variables to fit your needs. If you don't find that, come help us make it better by contributing!
     <br/>
     <br/>
     <h2 align="left">

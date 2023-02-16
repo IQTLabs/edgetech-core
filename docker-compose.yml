@@ -9,6 +9,11 @@ services:
       context: ./mqtt
       dockerfile: ./Dockerfile
     restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "10"
   core:
     image: iqtlabs/edgetech-core:${SERVICES_VERSION:-latest}
     network_mode: "host"
@@ -17,6 +22,11 @@ services:
       dockerfile: ./Dockerfile
     depends_on: 
       - mqtt
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "10"
   watchtower:
     image: containrrr/watchtower:latest
     network_mode: "host"
@@ -25,4 +35,9 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --interval ${WATCHTOWER_POLL_INTERVAL:-3600}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "10"
 

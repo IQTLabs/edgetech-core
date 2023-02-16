@@ -34,18 +34,18 @@
 <h1 align="center">EdgeTech-Core</h1>
 
   <p align="center">
-    EdgeTech-Core is a unified platform bringing functionality to edge-based devices with minimal development effort. The core is a dynamic message/event-based infrastructure that is enabled via <a href="https://projects.eclipse.org/projects/iot.mosquitto">MQTT</a>. All of this functionality is wrapped in a Docker containers for cross-platform compatability. Using the containers built on EdgeTech-Core, defining the software stack of an edge-deployable device should be as easy as dropping those containers into your docker-compose file and tuning enviornment variables to fit your needs. If you don't find that, come help us make it better by contributing!
+    EdgeTech-Core is a unified platform bringing functionality to edge-based devices with minimal development effort. The core is a dynamic message/event-based infrastructure that is enabled via <a href="https://projects.eclipse.org/projects/iot.mosquitto">MQTT</a>. All of this functionality is wrapped in a Docker containers for cross-platform compatability. Using the containers built on EdgeTech-Core, defining the software stack of an edge-deployable device should be as easy as dropping those containers into your docker-compose file and tuning environment variables to fit your needs. If you don't find that, come help us make it better by contributing!
     <br/>
     <br/>
     <h2 align="left">
     Core Services:
     </h2>
     <p align="left">
-    - MQTT Broker (this module is dependent on the <a href="https://hub.docker.com/_/eclipse-mosquitto">eclipse-mosquitto</a> docker contianer running and uses <a href="https://www.eclipse.org/paho/index.php?page=clients/python/index.php">mqtt-paho</a> to interact with this broker)
+  - MQTT Broker (this module is dependent on the <a href="https://hub.docker.com/_/eclipse-mosquitto">eclipse-mosquitto</a> docker contianer running and uses <a href="https://www.eclipse.org/paho/index.php?page=clients/python/index.php">mqtt-paho</a> to interact with this broker)
     <br/>
-    - Heartbeat Monitor (keep the TCP/IP connection with the MQTT broker alive)
+  - Heartbeat Monitor (keep the TCP/IP connection with the MQTT broker alive)
     <br/>
-    - Core Library (python library for interacting with MQTT e.g. adding publishers/subscribers, connecting, disconnecting, etc.)
+  - Core Library (python library for interacting with MQTT e.g. adding publishers/subscribers, connecting, disconnecting, etc.)
     <br/>
     </p>
     <h2 align="left">

@@ -9,7 +9,12 @@ services:
       context: ./mqtt
       dockerfile: ./Dockerfile
     restart: unless-stopped
-  filesaver:
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10M"
+        max-file: "10"
+  template:
     image: iqtlabs/edgetech-template:latest
     build:
       context: ./
@@ -21,3 +26,8 @@ services:
     restart: unless-stopped
     depends_on: 
       - mqtt
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10M"
+        max-file: "10"

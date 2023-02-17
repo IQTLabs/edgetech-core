@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "core"
+version = "0.1.0"
+description = "Parent class of all IQT Labs EdgeTech work that wraps functionality to setup and manage MQTT client connections and interactions"
+authors = ["arichadda <ari.chadda@gmail.com>"]
+license = "Apache 2.0"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+paho-mqtt = "^1.6.1"
+pytest = "^7.2.1"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

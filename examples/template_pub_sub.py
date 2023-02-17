@@ -8,6 +8,7 @@ import paho.mqtt.client as mqtt
 
 from base_mqtt_pub_sub import BaseMQTTPubSub
 
+
 # inherit functionality from BaseMQTTPubSub parent this way
 class TemplatePubSub(BaseMQTTPubSub):
     def __init__(
@@ -60,7 +61,7 @@ class TemplatePubSub(BaseMQTTPubSub):
         # example publish data every 10 minutes
         schedule.every(10).minutes.do(
             self.publish_to_topic,
-            topic_name="Template Module Heartbeat",
+            topic_name="/example/topic",
             publish_payload=json.dumps(example_data),
         )
 
@@ -84,9 +85,9 @@ if __name__ == "__main__":
     # any variables in BaseMQTTPubSub can be overriden using **kwargs
     # and enviornment variables should be in the docker compose (in a .env file)
     template = TemplatePubSub(
-        env_variable=os.environ.get("ENV_VARIABLE"),
+        env_variable=str(os.environ.get("ENV_VARIABLE")),
         example_topic=str(os.environ.get("EXAMPLE_TOPIC")),
-        mqtt_ip=os.environ.get("MQTT_IP"),
+        mqtt_ip=str(os.environ.get("MQTT_IP")),
     )
     # call the main function
     template.main()

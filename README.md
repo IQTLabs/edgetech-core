@@ -146,7 +146,7 @@ See `CONTRIBUTING.md` for more information.
 
 ## License
 
-Distributed under the [Apache 2.0](https://github.com/IQTLabs/edgetech-filesaver/blob/main/LICENSE). See `LICENSE.txt` for more information.
+Distributed under the [Apache 2.0](https://github.com/IQTLabs/edgetech-core/blob/main/LICENSE). See `LICENSE` for more information.
 
 ## Contact IQTLabs
 

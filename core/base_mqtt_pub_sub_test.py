@@ -1,4 +1,4 @@
-"""_summary_
+"""Fixtures and unit tests for the the functionality in BaseMQTTPubSub.py
     NOTE: these tests are written assuming the MQTT server is running
 """
 import json
@@ -61,14 +61,14 @@ def fixture_callback_one() -> Callable[[mqtt.Client, Dict[Any, Any], Any], None]
     def _callback_one(
         _client: mqtt.Client, _userdata: Dict[Any, Any], msg: Any
     ) -> None:
-        """Standard callback fuction that prints the recieved message and topic name it is
+        """Standard callback function that prints the received message and topic name it is
         subscribed to.
 
         Args:
-            _client (mqtt.Client): the MQTT client that was instatntiated in the constructor.
+            _client (mqtt.Client): the MQTT client that was instantiated in the constructor.
             _userdata (Dict[Any,Any]): data passed to the callback through the MQTT paho Client
-            class contructor or set later through user_data_set().
-            msg (Any): the recieved message over the subscribed channel that includes
+            class constructor or set later through user_data_set().
+            msg (Any): the received message over the subscribed channel that includes
             the topic name and payload after decoding.
         """
         print("Message Topic:", msg.topic)
@@ -99,7 +99,7 @@ def fixture_topic_two() -> str:
 
 @pytest.fixture()
 def fixture_callback_two() -> Callable[[mqtt.Client, Dict[Any, Any], Any], None]:
-    """Pytest fixture that defines a nested funciton that will serve as the callback function
+    """Pytest fixture that defines a nested function that will serve as the callback function
     for multiple subscriber test.
 
     Returns:
@@ -109,14 +109,14 @@ def fixture_callback_two() -> Callable[[mqtt.Client, Dict[Any, Any], Any], None]
     def _callback_two(
         _client: mqtt.Client, _userdata: Dict[Any, Any], msg: Any
     ) -> None:
-        """Standard callback fuction that prints the recieved message and topic name it is
+        """Standard callback function that prints the received message and topic name it is
         subscribed to.
 
         Args:
-            _client (mqtt.Client): the MQTT client that was instatntiated in the constructor.
+            _client (mqtt.Client): the MQTT client that was instantiated in the constructor.
             _userdata (Dict[Any,Any]): data passed to the callback through the MQTT paho Client
-            class contructor or set later through user_data_set().
-            msg (Any): the recieved message over the subscribed channel that includes
+            class constructor or set later through user_data_set().
+            msg (Any): the received message over the subscribed channel that includes
             the topic name and payload after decoding.
         """
         print("Message Topic:", msg.topic)
@@ -132,7 +132,7 @@ def fixture_heartbeat_payload() -> str:
 
     Returns:
         str: example heartbeat publish message for the base module that will be verified
-        as recieved.
+        as received.
     """
     return "Base Alive"
 
@@ -140,7 +140,7 @@ def fixture_heartbeat_payload() -> str:
 @pytest.fixture()
 def fixture_heartbeat_callback() -> Callable[[mqtt.Client, Dict[Any, Any], Any], None]:
     """pytest fixture that returns a callback for the heartbeat topic to verify that
-    the published payload has been recieved correcrtly and shows and example usage of
+    the published payload has been received correctly and shows and example usage of
     the userdata component of MQTT callbacks.
 
     Returns:
@@ -154,10 +154,10 @@ def fixture_heartbeat_callback() -> Callable[[mqtt.Client, Dict[Any, Any], Any],
         as stores the decoded payload in the userdata attribute of the client.
 
         Args:
-            client (mqtt.Client): the MQTT client that was instatntiated in the constructor.
+            client (mqtt.Client): the MQTT client that was instantiated in the constructor.
             _userdata (Dict[Any,Any]): data passed to the callback through the MQTT paho Client
-            class contructor or set later through user_data_set().
-            msg (Any): the recieved message over the subscribed channel that includes
+            class contractor or set later through user_data_set().
+            msg (Any): the received message over the subscribed channel that includes
             the topic name and payload after decoding.
         """
         print("Message Topic:", msg.topic)
@@ -175,17 +175,17 @@ def fixture_registration_payload() -> str:
 
     Returns:
         str: example registration publish message for the base module that will be verified
-        as recieved.
+        as received.
     """
     return "Base Registered"
 
 
 @pytest.fixture()
-def fixture_registration_callback() -> Callable[
-    [mqtt.Client, Dict[Any, Any], Any], None
-]:
+def fixture_registration_callback() -> (
+    Callable[[mqtt.Client, Dict[Any, Any], Any], None]
+):
     """pytest fixture that returns a callback for the registration topic to verify that
-    the published payload has been recieved correcrtly and shows and example usage of
+    the published payload has been received correctly and shows and example usage of
     the userdata component of MQTT callbacks.
 
     Returns:
@@ -199,10 +199,10 @@ def fixture_registration_callback() -> Callable[
         as stores the decoded payload in the userdata attribute of the client.
 
         Args:
-            client (mqtt.Client): the MQTT client that was instatntiated in the constructor.
+            client (mqtt.Client): the MQTT client that was instantiated in the constructor.
             _userdata (Dict[Any,Any]): data passed to the callback through the MQTT paho Client
-            class contructor or set later through user_data_set().
-            msg (Any): the recieved message over the subscribed channel that includes
+            class constructor or set later through user_data_set().
+            msg (Any): the received message over the subscribed channel that includes
             the topic name and payload after decoding.
         """
         print("Message Topic:", msg.topic)
@@ -238,7 +238,7 @@ def fixture_out_json() -> str:
 
 def test_connect_client(basepubsub: BaseMQTTPubSub) -> bool:
     """Using the pytest module, this function verifies that the connection function
-    effectively connects to the MQTT broker running on the device from the persepective
+    effectively connects to the MQTT broker running on the device from the perspective
     of the broker.
 
     Args:
@@ -295,14 +295,14 @@ def test_add_subscribe_topic(
     fixture_topic_one: str,
     fixture_callback_one: Callable[[mqtt.Client, Dict[Any, Any], Any], None],
 ) -> bool:
-    """Using the pytest module, this funciton is meant to verify the successful addition
+    """Using the pytest module, this function is meant to verify the successful addition
     of a subscriber to the specified topic from the perspective of the MQTT broker.
 
     Args:
         basepubsub (BaseMQTTPubSub): a dynamic instantiation of the BaseMQTTPubSub
         class this testing suite is evaluating.
         fixture_topic_one (str): the topic to subscribe to.
-        fixture_callback_one (Callable): the callback function trigged by a publish to the topic.
+        fixture_callback_one (Callable): the callback function triggered by a publish to the topic.
     """
     basepubsub.connect_client()
     sleep(1)  # default MQTT connection wait
@@ -318,17 +318,17 @@ def test_add_subscribe_topics(
     fixture_topic_two: str,
     fixture_callback_two: Callable[[mqtt.Client, Dict[Any, Any], Any], None],
 ) -> bool:
-    """Using the pytest module, this funciton is meant to verify the successful addition
+    """Using the pytest module, this function is meant to verify the successful addition
     of multiple subscribers to the specified topics from the perspective of the MQTT broker
 
     Args:
         basepubsub (BaseMQTTPubSub): a dynamic instantiation of the BaseMQTTPubSub
         class this testing suite is evaluating.
         fixture_topic_one (str): the first topic to subscribe to.
-        fixture_callback_one (Callable): the callback function trigged by a publish to
+        fixture_callback_one (Callable): the callback function triggered by a publish to
         the first topic.
         fixture_topic_two (str): the second topic to subscribe to.
-        fixture_callback_two (Callable): the callback function trigged by a publish to
+        fixture_callback_two (Callable): the callback function triggered by a publish to
         the second topic.
     """
     basepubsub.connect_client()
@@ -347,7 +347,7 @@ def test_remove_subscribe_topic(
     fixture_topic_one: str,
     fixture_callback_one: Callable[[mqtt.Client, Dict[Any, Any], Any], None],
 ) -> None:
-    """Using the pytest module, this funciton calls the remove subscriber funciton,
+    """Using the pytest module, this function calls the remove subscriber function,
     but will require additional development specified in the TODO to fully verify its accuracy.
 
     Args:
@@ -367,7 +367,7 @@ def test_remove_subscribe_topic(
     # function you will need to add an additional subscriber to the same topic, then
     # publish a payload to the topic after removing the first subscriber using the function,
     # then assign the decoded payloads to the user data in the callbacks and compare the two
-    # to make sure that the removed callback did not recievd the published message
+    # to make sure that the removed callback did not received the published message
 
 
 def test_publish_to_topic(
@@ -394,7 +394,7 @@ def test_publish_registration(
     fixture_registration_payload: str,
     fixture_registration_callback: Callable[[mqtt.Client, Dict[Any, Any], Any], None],
 ) -> None:
-    """Using the pytest module, his funciton tests multiple functionalities defiend in the class and can be considered
+    """Using the pytest module, his function tests multiple functionalities defined in the class and can be considered
     a verification of the registration function, the publish function, and the subscriber function
     as it publishes a payload to the registration topic specified in the constructor of the class
     and then captures that payload with a callback subscribed to that topic and maintains that
@@ -428,7 +428,7 @@ def test_publish_heartbeat(
     fixture_heartbeat_payload: str,
     fixture_heartbeat_callback: Callable[[mqtt.Client, Dict[Any, Any], Any], None],
 ) -> None:
-    """Using the pytest module, this funciton tests multiple functionalities defiend in the class and can be considered
+    """Using the pytest module, this function tests multiple functionalities defined in the class and can be considered
     a verification of the heartbeat function, the publish function, and the subscriber function
     as it publishes a payload to the heartbeat topic specified in the constructor of the class
     and then captures that payload with a callback subscribed to that topic and maintains that

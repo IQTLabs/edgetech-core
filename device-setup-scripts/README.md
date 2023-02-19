@@ -21,6 +21,6 @@
 
 The setup scripts contained in this folder are intended to bring a device from a base install of the OS up to a configuration ready for installation of an EdgeTech-compatible tool.
 
-The setup script can be run from a shortend URL:
+The setup script can be run from a shortened URL:
 
  `bash <(curl -fsSL https://short.iqt.org/pinephonepro)`

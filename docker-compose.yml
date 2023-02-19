@@ -28,7 +28,7 @@ services:
         max-size: "1M"
         max-file: "10"
   watchtower:
-    image: containrrr/watchtower:latest
+    image: containrrr/watchtower:1.5.3
     network_mode: "host"
     environment:
       - WATCHTOWER_POLL_INTERVAL:3600

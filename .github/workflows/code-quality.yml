@@ -1,10 +1,10 @@
-name: Checks
-on: [pull_request]
+name: Code Quality Checks
+on: [push, pull_request]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Checks
+    name: Code Quality Checks
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-python@v4

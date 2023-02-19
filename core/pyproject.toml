@@ -2,7 +2,7 @@
 name = "core"
 version = "0.1.0"
 description = "Parent class of all IQT Labs EdgeTech work that wraps functionality to setup and manage MQTT client connections and interactions"
-authors = ["arichadda <ari.chadda@gmail.com>"]
+authors = ["Ari <achadda@iqt.org>", "Rob <rcaudill@iqt.org>", "Logan <lkunka@iqt.org>", "Mona <mgogia@iqt.org>", "Jon <jmeade@iqt.org>", "Mike <mchadwick@iqt.org>"]
 license = "Apache 2.0"
 
 [tool.poetry.dependencies]

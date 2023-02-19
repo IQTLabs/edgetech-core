@@ -61,7 +61,7 @@ class BaseMQTTPubSub:
         connects the key with the value and each pair is newline delimited (assumes utf-8 encoded).
 
         Returns:
-            dict: a dictionary that maps the config keys to their values for programatic use.
+            dict: a dictionary that maps the config keys to their values for programmatic use.
         """
         with open(self.config_filepath, "r", encoding="utf-8") as file_pointer:
             parameters = {
@@ -85,9 +85,9 @@ class BaseMQTTPubSub:
             access to verify the connection—can be overridden for more elaborate usage.
 
             Args:
-                _client (mqtt.Client): the MQTT client that was instatntiated in the constructor.
+                _client (mqtt.Client): the MQTT client that was instantiated in the constructor.
                 _userdata (Any):  data passed to the callback through the MQTT paho Client
-                class contructor.
+                class constructor.
                 _flags (dict):a dictionary that maps the response flags in the case that
                 there are more than one.
                 response_flag (int): integer response flag where 0 is success and 1 - 5
@@ -98,7 +98,7 @@ class BaseMQTTPubSub:
                     2: Connection refused - invalid client identifier.
                     3: Connection refused - server unavailable.
                     4: Connection refused - bad username or password.
-                    5: Connection refused - not authorised 6-255: Currently unused.
+                    5: Connection refused - not authorized 6-255: Currently unused.
             """
             if response_flag == mqtt.MQTT_ERR_SUCCESS:
                 self.connection_flag = True
@@ -123,13 +123,13 @@ class BaseMQTTPubSub:
         def _on_disconnect(
             _client: mqtt.Client, _userdata: Any, response_flag: int
         ) -> None:
-            """Disconnect callback that stores the result of diconnecting in a flag for class-wide
-            access to verify the disconect—can be overridden for more elaborate usage.
+            """Disconnect callback that stores the result of disconnecting in a flag for class-wide
+            access to verify the disconnect can be overridden for more elaborate usage.
 
             Args:
-                _client (mqtt.Client): the MQTT client that was instatntiated in the constructor.
+                _client (mqtt.Client): the MQTT client that was instantiated in the constructor.
                 _userdata (Any): data passed to the callback through the MQTT paho Client
-                class contructor or set later using user_data_set().
+                class constructor or set later using user_data_set().
                 response_flag (int): integer response flag where 0 is success and 1 - 5
                 are various failure types.
             """
@@ -149,7 +149,7 @@ class BaseMQTTPubSub:
         qos: int = 0,
         retain: bool = False,
     ) -> None:
-        """If the container unexpectedly fails withouth calling disconnect(), the payload
+        """If the container unexpectedly fails without calling disconnect(), the payload
         is published to the specified topic with the specified quality of service.
 
         Args:
@@ -194,7 +194,7 @@ class BaseMQTTPubSub:
 
         Args:
             topic_list (list[str]): list of topics to subscribe to.
-            callback_method_list (list[Callable[[mqtt.Client, Dict[Any, Any], Any], None]]): list of callback functions to recieve callbacks.
+            callback_method_list (list[Callable[[mqtt.Client, Dict[Any, Any], Any], None]]): list of callback functions to receive callbacks.
             qos_list (list[str]): list of integers that correspond to the QoS requirements.
 
         Returns:
@@ -211,7 +211,7 @@ class BaseMQTTPubSub:
         )  # returns True if all successful
 
     def remove_subscribe_topic(self: Any, topic_name: str) -> None:
-        """A wrapper around paho MQTT callback removal funciton, which does not send a
+        """A wrapper around paho MQTT callback removal function, which does not send a
         success message so nothing is returned (TODO: is make a PR on the paho GitHub).
 
         Args:
@@ -226,7 +226,7 @@ class BaseMQTTPubSub:
         qos: int = 2,
         retain: bool = False,
     ) -> bool:
-        """A wrapper around the paho MQTT publishing function publshes a payload to
+        """A wrapper around the paho MQTT publishing function publishes a payload to
         a topic name and returns True if successful.
 
         Args:
@@ -236,7 +236,7 @@ class BaseMQTTPubSub:
             retain (bool, optional): keep the last published message or not. Defaults to False.
 
         Returns:
-            bool: returns true if publish succeded, else false
+            bool: returns true if publish succeeded, else false
         """
         (result, _mid) = self.client.publish(topic_name, publish_payload, qos, retain)
         return result == mqtt.MQTT_ERR_SUCCESS  # returns True if successful
@@ -246,16 +246,16 @@ class BaseMQTTPubSub:
         constructor of a new node to broadcast its successful connection to MQTT.
 
         Args:
-            payload (str): registration message to publish on initalization of a new node.
+            payload (str): registration message to publish on initialization of a new node.
 
         Returns:
-            bool: returns true if publish succeded, else false.
+            bool: returns true if publish succeeded, else false.
         """
         success = self.publish_to_topic(self.registration_topic, payload)
         return success
 
     def publish_heartbeat(self: Any, payload: str) -> bool:
-        """A function that includes a hearbeat publisher. To call this function correctly,
+        """A function that includes a heartbeat publisher. To call this function correctly,
         you will need to use the python schedule module around this function or put this in
         your main loop with a tick of self.heartbeat_frequency b/c MQTT is single threaded.
 
@@ -263,7 +263,7 @@ class BaseMQTTPubSub:
             payload (str): heartbeat message to publish to keep TCP/IP connection alive.
 
         Returns:
-            bool: returns true if publish succeded, else false.
+            bool: returns true if publish succeeded, else false.
         """
         success = self.publish_to_topic(self.heartbeat_topic, payload)
         return success
@@ -282,7 +282,7 @@ class BaseMQTTPubSub:
         data_payload_type: str,
         data_payload: str,
     ) -> str:
-        """This function takes the requried parameters and creates a formatted data payload with
+        """This function takes the required parameters and creates a formatted data payload with
         headers for saving/database ingestion.
 
         Args:
@@ -292,7 +292,7 @@ class BaseMQTTPubSub:
             deployment_id (str): Device Deployment ID <Project>-<City>-ID.
             current_location (str): Can be set to null/blank if no GPS present.
             Attribute is required.
-            status (str): Values can be - [Active, Deactive, Debug].
+            status (str): Values can be - [Active, Inactive, Debug].
             message_type (str): Values can be - [Heartbeat, Event].
             model_version (str): Version string representing the model running on device.
             firmware_version (str): Device firmware version.

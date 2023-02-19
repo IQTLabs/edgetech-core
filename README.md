@@ -41,11 +41,11 @@
     Core Services:
     </h2>
     <p align="left">
-  - MQTT Broker (this module is dependent on the <a href="https://hub.docker.com/_/eclipse-mosquitto">eclipse-mosquitto</a> docker container running and uses <a href="https://www.eclipse.org/paho/index.php?page=clients/python/index.php">mqtt-paho</a> to interact with this broker)
+    - MQTT Broker (this module is dependent on the <a href="https://hub.docker.com/_/eclipse-mosquitto">eclipse-mosquitto</a> docker container running and uses <a href="https://www.eclipse.org/paho/index.php?page=clients/python/index.php">mqtt-paho</a> to interact with this broker)
     <br/>
-  - Heartbeat Monitor (keep the TCP/IP connection with the MQTT broker alive)
+    - Heartbeat Monitor (keep the TCP/IP connection with the MQTT broker alive)
     <br/>
-  - Core Library (python library for interacting with MQTT e.g. adding publishers/subscribers, connecting, disconnecting, etc.)
+    - Core Library (python library for interacting with MQTT e.g. adding publishers/subscribers, connecting, disconnecting, etc.)
     <br/>
     </p>
     <h2 align="left">

@@ -1,0 +1,3 @@
+[submodule "edgetech-template"]
+	path = edgetech-template
+	url = https://github.com/IQTLabs/edgetech-template.git

@@ -1,19 +1,6 @@
 version: "3"
 services:
-  mqtt:
-    image: iqtlabs/edgetech-mqtt:${SERVICES_VERSION:-latest}
-    ports:
-      - "1883:1883"
-      - "9001:9001"
-    build:
-      context: ./mqtt
-      dockerfile: ./Dockerfile
-    restart: unless-stopped
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "1M"
-        max-file: "10"
+
   core:
     image: iqtlabs/edgetech-core:${SERVICES_VERSION:-latest}
     network_mode: "host"
@@ -21,12 +8,14 @@ services:
       context: ./core
       dockerfile: ./Dockerfile
     depends_on: 
-      - mqtt
+      mqtt:
+        condition: service_healthy
     logging:
       driver: "json-file"
       options:
         max-size: "1M"
         max-file: "10"
+
   watchtower:
     image: containrrr/watchtower:1.5.3
     network_mode: "host"
@@ -41,3 +30,61 @@ services:
         max-size: "1M"
         max-file: "10"
 
+  ca:
+    image: mqtt-ca
+    build:
+      context: ca
+      dockerfile: Dockerfile.ca
+    env_file:
+      - ca/ca.env 
+    hostname: ca
+    volumes:
+      - "${PWD}/step:/home/step"
+    networks:
+      mqtt:
+          aliases:
+            - ca.mqtt.local
+    expose:
+      - 8051
+      - 8050
+    secrets:
+      - ca_pass
+
+  mqtt:
+    image: iqtlabs/edgetech-mqtt:${SERVICES_VERSION:-latest}
+    build:
+      context: mqtt
+      dockerfile: Dockerfile
+    hostname: broker
+    depends_on:
+      ca:
+        condition: service_healthy
+    expose:
+      - 8883
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "10"
+    networks:
+      mqtt:
+        aliases:
+          - broker.mqtt.local
+    secrets:
+      - mqtt_pass
+      - mqtt_user
+
+networks:
+  mqtt:
+    name: mqtt.local
+
+secrets:
+  ca_pass:
+    file: .ca_password
+  mqtt_pass:
+    file: .mqtt_password
+  mqtt_user:
+    file: .mqtt_user
+
+  

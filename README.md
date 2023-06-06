@@ -47,6 +47,8 @@
     <br/>
     - Core Library (python library for interacting with MQTT e.g. adding publishers/subscribers, connecting, disconnecting, etc.)
     <br/>
+    - Containerized certificate authentication (traffic on MQTT bus is TLS encrypted through generating and managing certificates)
+    <br/>
     </p>
     <h2 align="left">
     Auxiliary Services:

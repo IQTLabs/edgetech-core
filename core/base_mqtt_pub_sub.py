@@ -13,7 +13,7 @@ class BaseMQTTPubSub:
     and add publishers.
     """
 
-    MQTT_IP = "127.0.0.1"
+    MQTT_IP = "broker.mqtt.local"
     MQTT_PORT = 1883
     MQTT_TIMEOUT = 60
     REGISTRATION_TOPIC = "/registration"

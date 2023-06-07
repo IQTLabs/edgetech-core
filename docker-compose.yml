@@ -3,7 +3,6 @@ services:
 
   core:
     image: iqtlabs/edgetech-core:${SERVICES_VERSION:-latest}
-    network_mode: "host"
     build:
       context: ./core
       dockerfile: ./Dockerfile
@@ -15,6 +14,10 @@ services:
       options:
         max-size: "1M"
         max-file: "10"
+    networks:
+      mqtt:
+          aliases:
+            - core.mqtt.local
 
   watchtower:
     image: containrrr/watchtower:1.5.3
@@ -31,10 +34,10 @@ services:
         max-file: "10"
 
   ca:
-    image: mqtt-ca
+    image: iqtlabs/edgetech-ca:${SERVICES_VERSION:-latest}
     build:
       context: ca
-      dockerfile: Dockerfile.ca
+      dockerfile: Dockerfile
     env_file:
       - ca/ca.env 
     hostname: ca

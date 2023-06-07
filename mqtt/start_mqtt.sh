@@ -6,7 +6,7 @@ touch /var/log/mosquitto.log
 chown mosquitto:mosquitto /var/log/mosquitto.log
 chown -R mosquitto:mosquitto /etc/mosquitto/
 ./trust_ca.sh
-certbot certonly --standalone --domains server.mqtt.local \
+certbot certonly --standalone --domains broker.mqtt.local \
 --register-unsafely-without-email \
 --server https://ca.mqtt.local:8050/acme/acme/directory \
 --post-hook /update_mqtt_cfg.sh
@@ -15,7 +15,7 @@ certbot certonly --standalone --domains server.mqtt.local \
 # copy certs to a location accessible by mosquitto and
 # adjust config accordingly
 [ ! -d "/etc/mosquitto/certs" ] && mkdir /etc/mosquitto/certs
-cp /etc/letsencrypt/live/server.mqtt.local/*.pem /etc/mosquitto/certs/
+cp /etc/letsencrypt/live/broker.mqtt.local/*.pem /etc/mosquitto/certs/
 chown -R mosquitto:mosquitto /etc/mosquitto/certs/
 
 mosquitto_passwd -b /etc/mosquitto/passwd $(cat /run/secrets/mqtt_user) $(cat /run/secrets/mqtt_pass)

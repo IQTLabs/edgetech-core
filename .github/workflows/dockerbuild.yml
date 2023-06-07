@@ -39,7 +39,7 @@ jobs:
     - name: Build Images
       env: 
         # Every folder in the repo that has a Dockerfile within it, comma separated 
-        DOCKERFOLDERS: "core,mqtt"
+        DOCKERFOLDERS: "core,mqtt,ca"
         DOCKERNAMESPACE: ${{ secrets.DOCKER_NAMESPACE }}
         PROJECT_NAME: "edgetech"
       run: |

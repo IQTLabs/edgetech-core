@@ -5,6 +5,8 @@ This is very much a working document and is under active development.
 import json
 from typing import Callable, Any, Dict, List
 import paho.mqtt.client as mqtt
+import logging
+import coloredlogs
 
 
 class BaseMQTTPubSub:
@@ -13,12 +15,23 @@ class BaseMQTTPubSub:
     and add publishers.
     """
 
-    MQTT_IP = "broker.mqtt.local"
+    MQTT_IP = "mqtt"
     MQTT_PORT = 1883
     MQTT_TIMEOUT = 60
     REGISTRATION_TOPIC = "/registration"
     HEARTBEAT_TOPIC = "/heartbeat"
     HEARTBEAT_FREQUENCY = 10  # seconds
+    COLORED_LOGS_STYLES = {
+        "critical": {"bold": True, "color": "red"},
+        "debug": {"color": "green"},
+        "error": {"color": "red"},
+        "info": {"color": "white"},
+        "notice": {"color": "magenta"},
+        "spam": {"color": "green", "faint": True},
+        "success": {"bold": True, "color": "green"},
+        "verbose": {"color": "blue"},
+        "warning": {"color": "yellow"},
+    }
 
     def __init__(
         self: Any,
@@ -28,6 +41,7 @@ class BaseMQTTPubSub:
         registration_topic: str = REGISTRATION_TOPIC,
         heartbeat_topic: str = HEARTBEAT_TOPIC,
         heartbeat_frequency: int = HEARTBEAT_FREQUENCY,
+        colored_logs_styles: Dict[str, Dict] = COLORED_LOGS_STYLES,
     ) -> None:
         """BaseMQTTPubSub constructor takes constants for the config filepath, heartbeat channel,
         and heartbeat frequency and converts them to class accessible variables.
@@ -51,24 +65,19 @@ class BaseMQTTPubSub:
         self.heartbeat_topic = heartbeat_topic
         self.heartbeat_frequency = heartbeat_frequency
 
+        coloredlogs.install(
+            level=logging.INFO,
+            fmt="%(asctime)s.%(msecs)03d \033[0;90m%(levelname)-8s "
+            ""
+            "\033[0;36m%(filename)-18s%(lineno)3d\033[00m "
+            "%(message)s",
+            level_styles=colored_logs_styles,
+        )
+
         self.connection_flag = None
         self.graceful_disconnect_flag = None
 
         self.client = mqtt.Client()
-
-    def _parse_config(self: Any) -> Dict[str, str]:
-        """Parses the config at the specified path from the constructor where the equal sign
-        connects the key with the value and each pair is newline delimited (assumes utf-8 encoded).
-
-        Returns:
-            dict: a dictionary that maps the config keys to their values for programmatic use.
-        """
-        with open(self.config_filepath, "r", encoding="utf-8") as file_pointer:
-            parameters = {
-                line.split("=")[0]: line.split("=")[-1]
-                for line in file_pointer.read().splitlines()
-            }
-            return parameters
 
     def connect_client(self: Any) -> None:
         """Properly add a client connection to the MQTT server that includes a callback, which

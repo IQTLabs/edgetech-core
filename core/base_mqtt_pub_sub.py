@@ -41,7 +41,7 @@ class BaseMQTTPubSub:
         registration_topic: str = REGISTRATION_TOPIC,
         heartbeat_topic: str = HEARTBEAT_TOPIC,
         heartbeat_frequency: int = HEARTBEAT_FREQUENCY,
-        colored_logs_styles: Dict[str, Dict] = COLORED_LOGS_STYLES,
+        colored_logs_styles: Dict[str, Any] = COLORED_LOGS_STYLES,
     ) -> None:
         """BaseMQTTPubSub constructor takes constants for the config filepath, heartbeat channel,
         and heartbeat frequency and converts them to class accessible variables.

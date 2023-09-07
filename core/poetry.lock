@@ -80,7 +80,7 @@ python-versions = "*"
 
 [[package]]
 name = "pytest"
-version = "7.4.1"
+version = "7.4.2"
 description = "pytest: simple powerful testing with Python"
 category = "main"
 optional = false

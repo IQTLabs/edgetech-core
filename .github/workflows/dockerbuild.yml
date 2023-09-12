@@ -18,7 +18,7 @@ jobs:
         echo "::set-output name=IMAGE_TAG::$(echo $GITHUB_REF | cut -d / -f 3)"
     
     - name: Set up qemu
-      uses: docker/setup-qemu-action@v2
+      uses: docker/setup-qemu-action@v3
       with:
         platforms: all
 

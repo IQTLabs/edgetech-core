@@ -279,7 +279,7 @@ class BaseMQTTPubSub:
 
     def generate_payload_json(
         self: Any,
-        push_timestamp: int,
+        push_timestamp: float,
         device_type: str,
         id_: str,
         deployment_id: str,
@@ -295,7 +295,7 @@ class BaseMQTTPubSub:
         headers for saving/database ingestion.
 
         Args:
-            push_timestamp (int): The timestamp at which the message was pushed from device.
+            push_timestamp (float): The timestamp at which the message was pushed from device.
             device_type (str): This can be either 'Collector', 'Detector', 'Multimodal', etc.
             id_ (str): ID of the device. This could be IP address. This should remain constant.
             deployment_id (str): Device Deployment ID <Project>-<City>-ID.

@@ -3,9 +3,10 @@ incorporates a dynamic message/event-based infrastructure that is enabled via MQ
 This is very much a working document and is under active development.
 """
 import json
+import os
 from typing import Callable, Any, Dict, List
+
 import paho.mqtt.client as mqtt
-import logging
 import coloredlogs
 
 
@@ -66,7 +67,7 @@ class BaseMQTTPubSub:
         self.heartbeat_frequency = heartbeat_frequency
 
         coloredlogs.install(
-            level=logging.INFO,
+            level=os.environ.get("LOG_LEVEL", "INFO"),
             fmt="%(asctime)s.%(msecs)03d \033[0;90m%(levelname)-8s "
             ""
             "\033[0;36m%(filename)-18s%(lineno)3d\033[00m "

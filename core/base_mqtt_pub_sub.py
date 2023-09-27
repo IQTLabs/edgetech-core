@@ -279,7 +279,7 @@ class BaseMQTTPubSub:
 
     def generate_payload_json(
         self: Any,
-        push_timestamp: int,
+        push_timestamp: int | float,
         device_type: str,
         id_: str,
         deployment_id: str,

@@ -3,7 +3,7 @@ incorporates a dynamic message/event-based infrastructure that is enabled via MQ
 This is very much a working document and is under active development.
 """
 import json
-from typing import Callable, Any, Dict, List
+from typing import Callable, Any, Dict, List, Union
 import paho.mqtt.client as mqtt
 import logging
 import coloredlogs
@@ -279,7 +279,7 @@ class BaseMQTTPubSub:
 
     def generate_payload_json(
         self: Any,
-        push_timestamp: int,
+        push_timestamp: Union[int, float],
         device_type: str,
         id_: str,
         deployment_id: str,

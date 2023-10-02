@@ -5,7 +5,6 @@ This is very much a working document and is under active development.
 import json
 from typing import Callable, Any, Dict, List, Union
 import paho.mqtt.client as mqtt
-import logging
 import coloredlogs
 
 
@@ -21,6 +20,7 @@ class BaseMQTTPubSub:
     REGISTRATION_TOPIC = "/registration"
     HEARTBEAT_TOPIC = "/heartbeat"
     HEARTBEAT_FREQUENCY = 10  # seconds
+    COLORED_LOGS_LEVEL = "INFO"
     COLORED_LOGS_STYLES = {
         "critical": {"bold": True, "color": "red"},
         "debug": {"color": "green"},
@@ -41,6 +41,7 @@ class BaseMQTTPubSub:
         registration_topic: str = REGISTRATION_TOPIC,
         heartbeat_topic: str = HEARTBEAT_TOPIC,
         heartbeat_frequency: int = HEARTBEAT_FREQUENCY,
+        colored_logs_level: str = COLORED_LOGS_LEVEL,
         colored_logs_styles: Dict[str, Any] = COLORED_LOGS_STYLES,
     ) -> None:
         """BaseMQTTPubSub constructor takes constants for the config filepath, heartbeat channel,
@@ -66,7 +67,7 @@ class BaseMQTTPubSub:
         self.heartbeat_frequency = heartbeat_frequency
 
         coloredlogs.install(
-            level=logging.INFO,
+            level=colored_logs_level,
             fmt="%(asctime)s.%(msecs)03d \033[0;90m%(levelname)-8s "
             ""
             "\033[0;36m%(filename)-18s%(lineno)3d\033[00m "

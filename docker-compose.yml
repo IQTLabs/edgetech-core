@@ -20,7 +20,7 @@ services:
             - core.mqtt.local
 
   watchtower:
-    image: containrrr/watchtower:1.5.3
+    image: containrrr/watchtower:1.7.1
     network_mode: "host"
     environment:
       - WATCHTOWER_POLL_INTERVAL:3600

@@ -1,4 +1,4 @@
-FROM python:3.11-slim
+FROM python:3.12-slim
 COPY pyproject.toml .
 COPY poetry.lock .
 RUN pip3 install poetry

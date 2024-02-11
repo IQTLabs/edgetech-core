@@ -7,7 +7,7 @@ license = "Apache 2.0"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-paho-mqtt = "^1.6.1"
+paho-mqtt = "^2.0.0"
 pytest = "^7.2.1"
 coloredlogs = "^15.0.1"
 

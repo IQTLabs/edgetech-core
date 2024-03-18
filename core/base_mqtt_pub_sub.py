@@ -251,6 +251,107 @@ class BaseMQTTPubSub:
         (result, _mid) = self.client.publish(topic_name, publish_payload, qos, retain)
         return result == mqtt.MQTT_ERR_SUCCESS  # returns True if successful
 
+
+    def decode_payload(
+        self, msg: Union[mqtt.MQTTMessage, str], data_payload_type: str
+    ) -> Dict[Any, Any]:
+        """
+        Decode the payload carried by a message.
+
+        Parameters
+        ----------
+        payload: mqtt.MQTTMessage
+            The MQTT message
+        data_payload_type: str
+            The data payload type
+
+        Returns
+        -------
+        data : Dict[Any, Any]
+            The data payload of the message payload
+        """
+        if type(msg) == mqtt.MQTTMessage:
+            payload = msg.payload.decode()
+        else:
+            payload = msg
+        try:
+            json_payload = json.loads(payload)
+            if hasattr(json_payload, "data_payload_type"):
+                logging.error(
+                    f"Data payload type: {data_payload_type} not found in payload: {data_payload}"
+                )
+                return {}
+            data_payload = json_payload[data_payload_type]
+        except (KeyError, TypeError) as e:
+            logging.error(f"Decode Payload Error: {e}")
+            logging.error(json_payload)
+
+            return {}
+        return json.loads(data_payload)
+
+    def send_data(self, topic: str, data: Dict[str, str]) -> bool:
+        """Publish a JSON
+        payload to the MQTT broker on the topic specified by type.
+
+        Parameters
+        ----------
+        data : Dict[str, str]
+            Dictionary that maps keys to type and payload
+
+        Returns
+        -------
+        success : bool
+            Returns True if successful publish, else False
+        """
+        if not hasattr(data, "type") or not hasattr(data, "payload"):
+            logging.error(
+                "Data payload must have keys 'type' and 'payload' to publish."
+            )
+            return False
+        
+        # Generate payload as JSON
+        payload = self.generate_payload_json(
+            push_timestamp=int(datetime.utcnow().timestamp()),
+            device_type=os.environ.get("DEVICE_TYPE", "Collector"),
+            id_=self.hostname,
+            deployment_id=os.environ.get(
+                "DEPLOYMENT_ID", f"Unknown-Location-{self.hostname}"
+            ),
+            current_location=os.environ.get("CURRENT_LOCATION", "-90, -180"),
+            status="Debug",
+            message_type="Event",
+            model_version="null",
+            firmware_version="v0.0.0",
+            data_payload_type=data["type"],
+            data_payload=data["payload"],
+        )
+
+        if hasattr(data, "current_location"):
+            payload["current_location"] = data["current_location"]
+        
+        if hasattr(data, "status"):
+            payload["status"] = data["status"]
+        
+        if hasattr(data, "message_type"):
+            payload["message_type"] = data["message_type"]
+
+        if hasattr(data, "model_version"):
+            payload["model_version"] = data["model_version"]
+
+        if hasattr(data, "firmware_version"):
+            payload["firmware_version"] = data["firmware_version"]
+
+        success = self.publish_to_topic(topic, payload)
+        if success:
+            logging.info(f"Successfully published data on channel {topic}: {data}")
+
+        else:
+            logging.error(f"Failed to publish data on channel {topic}: {data}")
+
+        return success
+
+
+
     def publish_registration(self: Any, payload: str) -> bool:
         """A function that includes an registration publisher. This is called in the
         constructor of a new node to broadcast its successful connection to MQTT.

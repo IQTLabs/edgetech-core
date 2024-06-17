@@ -4,6 +4,7 @@ LABEL maintainer = "Ryan <rashley@iqt.org>"
 USER root
 RUN apk add --update nginx jq
 RUN mkdir /static && chown step:step /static && \
+    chown -R step:step /home/step && \
     chown -R step:step /var/lib/nginx && \
     chown -R step:step /var/log/nginx && \
     chown -R step:step /run/nginx && \
@@ -17,3 +18,4 @@ COPY ./nginx.conf /etc/nginx/nginx.conf
 
 COPY ./start_ca.sh /
 ENTRYPOINT ["/start_ca.sh"]
+#ENTRYPOINT ["tail", "-f", "/dev/null"]

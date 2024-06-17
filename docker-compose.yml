@@ -35,6 +35,7 @@ services:
 
   ca:
     image: iqtlabs/edgetech-ca:${SERVICES_VERSION:-latest}
+    user: "step:step"
     build:
       context: ca
       dockerfile: Dockerfile
